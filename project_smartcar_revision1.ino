@@ -32,13 +32,12 @@ const int ECHO_PIN=5;
 
 char in;
 // wei Li 
-
+const int buzzer=11;
 
 int distance=0;
 // set up the active buzzer
 
-int speakerPin = A0;
-int volume=0;
+int speakerPin = 0;
 
 
 
@@ -86,101 +85,222 @@ if(frontIsClear()==false){
 
        if ( distance>15)
        {
-        Serial.println(distance);
+        Serial3.println(distance);
         speedValue=50;
         car.setSpeed(speedValue);
         
-       
+       // noTone(buzzer);
+       // digitalWrite(buzzer, LOW);
        }
 
        else
        {
-        Serial.println(distance);
+        Serial3.println(distance);
         speedValue=0;
         car.setSpeed(speedValue);
         
-       
-      for( volume; volume<255; volume++)
-      {
+        tone(buzzer,100);
+
        analogWrite (speakerPin, 100);
        delay (50);
-      }
-     
-       // volume=0;
-     
+     //   analogWrite (speakerPin, 0);
+     //   delay (10);
+        
        }
+   
    
  }
 }
 }
 //handle serial input if there is any
 void handleInput() {
+
  switch(in){
+
    //go front
- case 'f': if(speedValue<100 && speedValue !=0)
-              speedValue = speedValue + 10;
-              if(speedValue == 0){
-               speedValue = 40;
-                }
-           car.setSpeed(speedValue);
-           car.setAngle(angle);
-   break;
-   
- //go back
- case 'b': if(speedValue>-100 && speedValue!=0)
-              speedValue = -speedValue;
-              if(speedValue == 0){
-               speedValue = -40;
-              }
-           car.setSpeed(speedValue);
-           car.setAngle(angle);      break;   
-           //go right
- case 'r': if(angle<60)
-              angle = angle + 15;        
-           car.setAngle(angle);
-           car.setSpeed(speedValue);
- 
-  break; 
-  case 'l':  if(angle>-60)
-              angle = angle - 15;            
-           car.setAngle(angle);
-           car.setSpeed(speedValue);
-   break;
-   //rotate left
- case 'a': car.rotate(-80);
- 
-  break;//rotate right
- case 'd': car.rotate(80);
-  break;//stop
- case 's': speedValue = 0;
-           angle = 0;
-           car.setAngle(angle);
-           car.setSpeed(speedValue);
+
+ case ‘f’: 
+
+       forward();
+
+
+
+ case ‘b’: 
+
+       backward();
+
+
+
+  case 'r': 
+       right();
        
-}
-if(frontIsClear()==false){  
- speedValue = 0;
- angle = 0;
- car.setAngle(angle);
- car.setSpeed(speedValue);
-}
-} 
+
+ case ‘l’: 
+       left();
+
+ case ’s’: 
+       stop();
+       
+     }
+
+
+         if(frontIsClear()==false){  
+
+             speedValue = 0;
+
+              angle = 0;
+
+               car.setAngle(angle);
+
+            car.setSpeed(speedValue);
+
+            }
+
+         } 
+
 // check the distance given by the ultrasonic
+
 //in order to see if the car encounters an object or not in front
-boolean frontIsClear(){
-frontObjEncountered =  ultrasonicFront.getDistance();
- if(frontObjEncountered > 50)
- return true;
-if(frontObjEncountered == 0)
- return true; 
- return false;
-}//check the distance given by the ultrasonic
+
+            boolean frontIsClear(){
+
+            frontObjEncountered =  ultrasonicFront.getDistance();
+
+            if(frontObjEncountered > 50)
+
+             return true;
+
+            if(frontObjEncountered == 0)
+
+             return true; 
+
+             return false;
+
+           }//check the distance given by the ultrasonic
+
 //in order to see if the car encounters an object or not in the back
-boolean backIsClear(){
-backObjEncountered = ultrasonicBack.getDistance();
-if (backObjEncountered > 50)
- return true;
-if (backObjEncountered == 0)
- return true;  
- return false;
+
+            boolean backIsClear(){
+
+             backObjEncountered = ultrasonicBack.getDistance();
+
+             if (backObjEncountered > 50)
+
+             return true;
+
+             if (backObjEncountered == 0)
+
+              return true;  
+
+                return false;
+
 }
+
+      
+
+
+void forward()
+{
+ if(speedValue<100 && speedValue !=0)
+
+              speedValue = speedValue + 10;
+
+              if(speedValue == 0){
+
+               speedValue = 40;
+
+                }
+
+           car.setSpeed(speedValue);
+
+           car.setAngle(angle);
+
+   break;
+}
+
+void backward ()
+{
+ if(speedValue>-100 && speedValue!=0)
+
+              speedValue = -speedValue;
+
+              if(speedValue == 0){
+
+               speedValue = -40;
+
+              }
+
+           car.setSpeed(speedValue);
+
+           car.setAngle(angle);      
+   break;  
+}
+
+void left()
+{
+           if(angle>-60)
+
+              angle = angle - 15;            
+
+           car.setAngle(angle);
+
+           car.setSpeed(speedValue);
+
+   break;
+
+}
+
+void right()
+{
+
+   if(angle<60)
+
+              angle = angle + 15;        
+
+           car.setAngle(angle);
+
+           car.setSpeed(speedValue);
+
+  break;
+
+}
+
+void stop()
+{
+
+           speedValue = 0;
+
+           angle = 0;
+
+           car.setAngle(angle);
+
+           car.setSpeed(speedValue);
+
+           break;
+
+
+}
+
+
+
+
+  
+
+           
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
