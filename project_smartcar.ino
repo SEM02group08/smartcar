@@ -89,6 +89,7 @@ if(frontIsClear()==false){
         Serial.println(distance);
         speedValue=50;
         car.setSpeed(speedValue);
+        volume=0;
         
        
        }
@@ -100,11 +101,11 @@ if(frontIsClear()==false){
         car.setSpeed(speedValue);
         
        
-      for( volume; volume<255; volume++)
-      {
-       analogWrite (speakerPin, 100);
-       delay (50);
-      }
+         for( volume; volume<255; volume++)
+         {
+           analogWrite (speakerPin, volume);
+           delay (10);
+          }
      
        // volume=0;
      
