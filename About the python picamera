@@ -1,0 +1,4 @@
+Our stream video/picture is relay on the python picamera, which was developed by Dave Jones.
+
+For this project, we actually do not have to mod the original code at all, however, if you feel like to get to know about its mechanisation
+there has some useful information on this page :https://www.raspberrypi.org/documentation/usage/camera/python/README.md
