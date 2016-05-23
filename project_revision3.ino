@@ -44,6 +44,9 @@ void setup() {
   ultrasonicFront.attach(6, 5);
   ultrasonicBack.attach(10,9); 
   pinMode (speakerPin, OUTPUT);
+  
+  // temperature pin
+  pinMode(tempPin, OUTPUT);
 
   //ultrasonic
   in=0;
@@ -119,6 +122,7 @@ void getTemp()
   double temp;            //Variable to hold a temperature value
   val=analogRead(tempPin);      //Read the analog from A5 and store the value in val
   temp=Thermister(val);   //Runs the  math on the raw analog value
+  analogWrite(tempPin, temp);
   Serial.println(temp);   //Print the value to the serial port
   delay(100);
   
